@@ -1,4 +1,5 @@
   # YOUR PROJECT TITLE
   #### Video Demo:  <URL HERE>
   #### Description
-  TODO
+  Current idea: ACC telemetry app (read UDP port and figure out how to use that data)
+    - potential stuff: GUI
