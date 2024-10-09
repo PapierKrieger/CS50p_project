@@ -1,8 +1,11 @@
+import socket
+
+
 def main():
     ...
 
 
-def function_1():
+def collect_data():
     ...
 
 

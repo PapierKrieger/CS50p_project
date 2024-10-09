@@ -1,8 +1,8 @@
-from project import function_1, function_2, function_n
+from project import collect_data, function_2, function_n
 import pytest
 
 
-def test_function_1():
+def test_collect_data():
     ...
 
 
