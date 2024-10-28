@@ -8,17 +8,18 @@ import world as w
 
 
 def main():
-    world = initialize_game()
-    run(world)
-
-
-def initialize_game():
     print("=== WELCOME TO THIS SHORT ESCAPE ROOM ===")
     print("Goal: collect the key and get to the exit...")
 
     args = get_args()
 
-    world = w.World(args.x, args.y)
+    world = initialize_game(args.x, args.y)
+    run(world)
+
+
+def initialize_game(x, y):
+
+    world = w.World(x, y)
     draw_game(world)
     return world
 
@@ -44,6 +45,7 @@ def draw_game(world):
 
     if world.has_won:
         game_win()
+    return 0
 
 
 def player_movement(key, world):
@@ -90,12 +92,14 @@ def player_movement(key, world):
 
     world.tilemap[world.player_x, world.player_y] = w.PLAYER
     draw_game(world)
+    return 0
 
 def clear_console():
     if sys_name == "nt":
         _ = system("cls")
     else:
         _ = system("clear")
+    return 0
 
 
 
