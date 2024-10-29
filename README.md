@@ -6,6 +6,8 @@
   It incorporates the use of classes, libraries, docstrings and console interaction.
   
 
+
+
   ### How to play
   Open a terminal application and navigate to this projects root folder.
   If you are using Windows 10 or Linux this can be done by right-clicking in this directory and 
@@ -20,7 +22,11 @@
   If you want to quit the game at any point, simply press the escape-key.
 
 
+
+
   ### Project Files
+  Before you read each of these, there is also a more comprehensive description you can find in the documentation.
+  
   #### __project.py__
   This is the main project file.
   This file handles the instansiation of the game world and includes the game logic itself.
