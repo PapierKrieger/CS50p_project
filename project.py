@@ -1,8 +1,6 @@
+import argparse
 from os import system, name as sys_name
 import sys
-
-import argparse
-
 from pynput import keyboard
 import world as w
 
@@ -12,33 +10,64 @@ def main():
     print("Goal: collect the key and get to the exit...")
 
     args = get_args()
-
-    world = initialize_game(args.x, args.y)
+    world = initialize_game(args)
     run(world)
 
 
-def initialize_game(x, y):
+def initialize_game(args):
+   """
+    Creates an instance of the game world and draws it for the first time
 
-    world = w.World(x, y)
-    draw_game(world)
-    return world
+   :param args: The given command-line arguments
+   :type args: argparse.Namespace
+   :return: The game world
+   :rtype: World
+   """
+   world = w.World(args.x, args.y)
+   draw_game(world)
+   return world
 
 def game_win():
+    """
+    Handles the win condition
+
+    :raise SystemExit: If the game is over
+    """
     print("Congratulations! You won!")
     sys.exit("--A short game by Malte Bodenbach--")
 
 
 def get_args():
-    parser = argparse.ArgumentParser(description="A short escape room game")
-    parser.add_argument("-x",default=10, help="Horizontal size of the room")
-    parser.add_argument("-y",default=10, help="Vertical size of the room")
+    """
+    Gets the provided command-line arguments\n
+    2 arguments are possible, both are optional
+
+    :return: The command-line arguments
+    :rtype: argparse.Namespace
+    """
+    parser = argparse.ArgumentParser(description="A simple escape room game")
+    parser.add_argument("-x", type=int, nargs="?", default=10, help="X coordinate as integer")
+    parser.add_argument("-y", type=int, nargs="?", default=10, help="Y coordinate as integer")
     return parser.parse_args()
 
 def run(world):
+    """
+    Instantiates a keyboard listener which checks for arrow-key presses.\n
+    This keeps the game running as the listener is using a separate thread
+
+    :param world: The game world
+    :type world: World
+    """
     with keyboard.Listener(on_press=lambda event: player_movement(event, world)) as listener:
         listener.join()
 
 def draw_game(world):
+    """
+    Draws the game area and if player has reached the door with the key it calls game_win()
+
+    :param world: The game world
+    :type world: World
+    """
     clear_console()
     for row in world.tilemap:
         print(" ".join(map(str, row)))
@@ -49,6 +78,15 @@ def draw_game(world):
 
 
 def player_movement(key, world):
+    """
+    Moves and draws the player, then calls draw_game()
+    :param key: The key that was pressed
+    :type key: pynput.keyboard.Key
+    :param world: The game world
+    :type world: World
+    :return: 0 if function executed successfully
+    :rtype: int
+    """
     world.tilemap[world.player_x, world.player_y] = w.FLOOR
     match key:
 
@@ -95,6 +133,9 @@ def player_movement(key, world):
     return 0
 
 def clear_console():
+    """
+    Clears the console depending on OS environment
+    """
     if sys_name == "nt":
         _ = system("cls")
     else:

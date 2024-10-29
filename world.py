@@ -9,11 +9,23 @@ PLAYER = "A"
 
 
 class World:
-    def __init__(self, x=10, y=10):
-        if 3 < x < 30 and 3 < y < 30:
+    """
+    The game world. Contains play area, player and key as well as has_won and has_key flags
+    """
+    def __init__(self, x, y):
+        """
+        Initializes the world with the given coordinates.
+
+        :param x: play area height
+        :type x: int
+        :param y: play area width
+        :type y: int
+        :raise ValueError: If x or y are smaller than 4 or larger than 30
+        """
+        if 3 < x <= 30 and 3 < y <= 30:
             pass
         else:
-            raise ValueError("room cannot be smaller than 4x4")
+            raise ValueError("room cannot be smaller than 4x4 or larger than 30x30")
         self.x = x
         self.y = y
         self.tilemap = np.full((x, y), FLOOR, dtype=str)
@@ -32,9 +44,12 @@ class World:
         self.generate_key()
         self.generate_player()
 
-        print(self.tilemap)
-
     def generate_walls(self):
+        """
+        Place wall characters at appropriate positions on play area
+        :return: 0 if method completed successfully
+        :rtype: int
+        """
         for i in range(self.x):
             self.tilemap[i, 0] = WALL
             self.tilemap[i, -1] = WALL
@@ -45,6 +60,11 @@ class World:
         return 0
 
     def generate_door(self):
+        """
+        Set door location in play area
+        :return: 0 if method completed successfully
+        :rtype: int
+        """
         direction = randrange(1, 4) # 1: ^ | 2: > | 3: v | 4: <
         match direction:
             case 1: self.tilemap[randrange(1, self.x - 1), 0] = DOOR
@@ -54,10 +74,22 @@ class World:
         return 0
 
     def generate_key(self):
+        """
+        Set key location in play area
+
+        :return: 0 if method completed successfully
+        :rtype: int
+        """
         self.tilemap[self.key_x, self.key_y] = KEY
         return 0
 
     def generate_player(self):
+        """
+        Set player location in play area
+
+        :return: 0 if method completed successfully
+        :rtype: int
+        """
         self.player_x = randrange(1, self.x - 1)
         self.player_y = randrange(1, self.y - 1)
 
